@@ -1,16 +1,8 @@
 %define version 3.0.2
-%define releasedate 20060711
-%define release %mkrel 1.%{releasedate}.2
+%define releasedate 20070627
+%define release %mkrel 1.%{releasedate}.1
 
 %define debug 0
-
-##### RPM PROBLEM WORKAROUNDS
-
-# Suppress automatically generated Requires for Perl libraries.
-#define _requires_exceptions perl\(.*\)
-  
-#define _unpackaged_files_terminate_build       0 
-#define _missing_doc_files_terminate_build      0
 
 ##### GENERAL DEFINITIONS
 
@@ -23,12 +15,12 @@ Group:          System/Servers
 Url:            http://www.linuxprinting.org/
 Requires:       foomatic-filters >= 3.0.2-1.20050816.1mdk perl-base >= 2:5.8.8
 
-BuildRequires:	autoconf2.5 automake cups
-BuildRequires:	perl-devel, file, libxml2-devel
+BuildRequires:	autoconf automake cups
+BuildRequires:	perl-devel file libxml2-devel
 
 ##### FOOMATIC SOURCES
 
-Source:		http://www.linuxprinting.org/download/foomatic/foomatic-db-engine-%{version}-%{releasedate}.tar.bz2
+Source:		http://www.linuxprinting.org/download/foomatic/foomatic-db-engine-3.0-%{releasedate}.tar.gz
 
 ##### BUILD ROOT
 
@@ -54,20 +46,13 @@ The site http://www.linuxprinting.org/ is based on this database.
 This package contains the tools for accessing the Foomatic database,
 for printer administration, and for printing.
 
-
-
-
 %prep
-# remove old directory
-rm -rf $RPM_BUILD_DIR/%{name}-%{version}-*
 
 ##### FOOMATIC
 
 # Source trees for installation
-%setup -q -n %{name}-%{version}-%{releasedate}
+%setup -q -n %{name}-3.0-%{releasedate}
 chmod -x *.c
-
-
 
 %build
 
@@ -112,8 +97,6 @@ make	LPD_LPR=/usr/bin/lpr-lpd \
 
 chmod a+rx mkinstalldirs
 
-
-
 %install
 
 rm -rf %{buildroot}
@@ -125,7 +108,6 @@ export CFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
 export CXXFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
 export RPM_OPT_FLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
 %endif
-
 
 # Make directories
 install -d %{buildroot}%{_bindir}
@@ -145,11 +127,6 @@ make	PREFIX=%{_prefix} \
         INSTALLSITELIB=%{buildroot}/$installsitelib \
         install
 
-# Install documentation
-install -d %buildroot%{_docdir}/foomatic-db-engine-%{version}
-cp README USAGE TODO Foomatic-Devel-Ideas.txt\
-	%buildroot%{_docdir}/foomatic-db-engine-%{version}
-
 # Use update-alternatives to make "foomatic-printjob" also possible through
 # the usual printing commands
  
@@ -162,30 +139,8 @@ cp README USAGE TODO Foomatic-Devel-Ideas.txt\
   ln -s %{_bindir}/foomatic-printjob lpc-foomatic
 )
 
-
 # Correct permissions
-chmod -R a+rX %{buildroot}%{_docdir}
-chmod -R a-X %{buildroot}%{_docdir}/*/*
-chmod -R go-w %{buildroot}%{_docdir}
-chmod -R u+w %{buildroot}%{_docdir}
 chmod -R a-X %{buildroot}%{perl_vendorlib}/Foomatic/*.pm
-
-
-
-##### FILES
-
-%files
-%defattr(-,root,root)
-%docdir %{_docdir}/%{name}-%{version}
-%{_docdir}/%{name}-%{version}
-%_bindir/*
-%_sbindir/*
-%perl_vendorlib/Foomatic
-%_datadir/foomatic/templates
-%{_mandir}/man*/*
-%{_prefix}/lib/cups/driver/*
-
-
 
 %post -n foomatic-db-engine
 # Set up update-alternatives entries
@@ -193,7 +148,6 @@ chmod -R a-X %{buildroot}%{perl_vendorlib}/Foomatic/*.pm
 %{_sbindir}/update-alternatives --install %{_bindir}/lpq lpq %{_bindir}/lpq-foomatic 1
 %{_sbindir}/update-alternatives --install %{_bindir}/lprm lprm %{_bindir}/lprm-foomatic 1
 %{_sbindir}/update-alternatives --install %{_sbindir}/lpc lpc %{_sbindir}/lpc-foomatic 1
-
 
 %preun -n foomatic-db-engine
 if [ "$1" -eq "0" ]; then
@@ -205,8 +159,17 @@ if [ "$1" -eq "0" ]; then
   %{_sbindir}/update-alternatives --remove lpc /usr/sbin/lpc-foomatic
 fi
 
-
 %clean
 rm -rf %{buildroot}
 
+##### FILES
 
+%files
+%defattr(-,root,root)
+%doc README TODO USAGE Foomatic-Devel-Ideas.txt ChangeLog
+%_bindir/*
+%_sbindir/*
+%perl_vendorlib/Foomatic
+%_datadir/foomatic/templates
+%{_mandir}/man*/*
+%{_prefix}/lib/cups/driver/*
