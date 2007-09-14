@@ -1,5 +1,5 @@
 %define version 3.0.2
-%define releasedate 20070627
+%define releasedate 20070820
 %define release %mkrel 1.%{releasedate}.1
 
 %define debug 0
