@@ -24,7 +24,6 @@ Source:		http://www.linuxprinting.org/download/foomatic/foomatic-db-engine-3.0-%
 
 ##### BUILD ROOT
 
-BuildRoot:	%_tmppath/%name-%version-%release-root
 
 ##### PACKAGE DESCRIPTIONS
 
