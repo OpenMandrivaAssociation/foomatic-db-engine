@@ -40,8 +40,6 @@ There are spooler-independent command line interfaces to manipulate
 queues (foomatic-configure) and to print files/manipulate jobs
 (foomatic printjob).
  
-The site http://www.linuxprinting.org/ is based on this database.
-
 This package contains the tools for accessing the Foomatic database,
 for printer administration, and for printing.
 
