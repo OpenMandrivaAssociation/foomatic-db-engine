@@ -1,5 +1,5 @@
 %define version 3.0.2
-%define releasedate 20071218
+%define releasedate 20080518
 %define release %mkrel 1.%{releasedate}.2
 
 %define debug 0
@@ -10,7 +10,7 @@ Name:		foomatic-db-engine
 Version:	%{version}
 Release:	%{release}
 Summary:        Foomatic database access, printer admin, and printing utils
-License:        GPL
+License:        GPLv2
 Group:          System/Servers
 Url:            http://www.linuxprinting.org/
 Requires:       foomatic-filters >= 3.0.2-1.20050816.1mdk perl-base >= 2:5.8.8
