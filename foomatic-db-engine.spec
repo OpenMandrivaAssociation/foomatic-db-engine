@@ -1,6 +1,12 @@
-%define version 4.0
-%define releasedate 20090316
+%define version 4.0.1
+%define releasedate 0
+%if %{releasedate}
 %define release %mkrel 0.%{releasedate}.1
+%define tarname %{name}-%{version}-%{releasedate}
+%else
+%define release %mkrel 1
+%define tarname %{name}-%{version}
+%endif
 
 %define debug 0
 
@@ -20,7 +26,7 @@ BuildRequires:	perl-devel file libxml2-devel
 
 ##### FOOMATIC SOURCES
 
-Source:		http://www.linuxprinting.org/download/foomatic/foomatic-db-engine-%{version}-%{releasedate}.tar.gz
+Source0:		http://www.linuxprinting.org/download/foomatic/%{tarname}.tar.gz
 
 ##### BUILD ROOT
 
@@ -49,7 +55,7 @@ for printer administration, and for printing.
 ##### FOOMATIC
 
 # Source trees for installation
-%setup -q -n %{name}-%{version}-%{releasedate}
+%setup -q -n %{tarname}
 chmod -x *.c
 
 %build
