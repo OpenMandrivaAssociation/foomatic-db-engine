@@ -1,4 +1,4 @@
-%define version 4.0.1
+%define version 4.0.3
 %define releasedate 0
 %if %{releasedate}
 %define release %mkrel 0.%{releasedate}.2
