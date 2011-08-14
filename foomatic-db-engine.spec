@@ -75,7 +75,7 @@ export RPM_OPT_FLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
 
 # Makefile generation ("./make_configure" for CVS snapshots)
 ./make_configure
-%configure
+%configure --libdir=%{_prefix}/lib
 
 # Fix for new library "make install" behaviour of Perl 5.8.1.
 perl -p -i -e 's/PREFIX=\$\(DESTDIR\)\$\(PERLPREFIX\)/PREFIX=\$\(PERLPREFIX\)/' Makefile
