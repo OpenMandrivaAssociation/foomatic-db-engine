@@ -21,19 +21,15 @@ Group:          System/Servers
 Url:            http://www.linuxprinting.org/
 Requires:       foomatic-filters >= 3.0.2-1.20050816.1mdk perl-base >= 2:5.8.8
 
-BuildRequires:	autoconf automake cups
-BuildRequires:	perl-devel file libxml2-devel
-
-##### FOOMATIC SOURCES
-
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	cups
+BuildRequires:	perl-devel
+BuildRequires:	file
+BuildRequires:	libxml2-devel
+BuildRequires:	perl-JSON-PP
 Source0:		http://www.linuxprinting.org/download/foomatic/%{tarname}.tar.gz
 Patch0:			foomatic-db-engine.cat.ppd.patch
-
-##### BUILD ROOT
-
-BuildRoot:	%_tmppath/%name-%version-%release-root
-
-##### PACKAGE DESCRIPTIONS
 
 %description
 Foomatic is a comprehensive, spooler-independent database of printers,
@@ -52,9 +48,6 @@ This package contains the tools for accessing the Foomatic database,
 for printer administration, and for printing.
 
 %prep
-
-##### FOOMATIC
-
 # Source trees for installation
 %setup -q -n %{tarname}
 chmod -x *.c
@@ -101,13 +94,11 @@ make	LPD_LPR=/usr/bin/lpr-lpd \
         PDQ_PRINTRC=/etc/pdq/printrc \
         PREFIX=%{_prefix} \
         PERL_INSTALLDIRS=vendor \
-        DESTDIR=%buildroot
+        DESTDIR=%{buildroot}
 
 chmod a+rx mkinstalldirs
 
 %install
-
-rm -rf %{buildroot}
 
 # Change compiler flags for debugging when in debug mode
 %if %debug
@@ -123,8 +114,6 @@ install -d %{buildroot}%{_libdir}
 install -d %{buildroot}%{_sysconfdir}
 install -d %{buildroot}%{_mandir}/man1
 install -d %{buildroot}%{_mandir}/man8
-
-##### FOOMATIC
 
 # Install program files
 eval `perl '-V:installsitelib'`
@@ -167,13 +156,7 @@ if [ "$1" -eq "0" ]; then
   %{_sbindir}/update-alternatives --remove lpc /usr/sbin/lpc-foomatic
 fi
 
-%clean
-rm -rf %{buildroot}
-
-##### FILES
-
 %files
-%defattr(-,root,root)
 %doc README TODO USAGE Foomatic-Devel-Ideas.txt ChangeLog
 %_bindir/*
 %_sbindir/*
