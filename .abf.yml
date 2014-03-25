@@ -1,4 +1,2 @@
-removed_sources:
-  foomatic-db-engine-4.0.8.tar.gz: e47f5ee9b9256077f70b5ecf2481dfbce416d97a
 sources:
-  foomatic-db-engine-4.0.9.tar.gz: dcbe8597ae810268eacda8728627e8dea69008ce
+  foomatic-db-engine-4.0.11.tar.gz: 662613458cc1e6c8312a9bc2a0b33e44318e3412
