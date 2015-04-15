@@ -8,7 +8,7 @@ License:        GPLv2
 Group:          System/Servers
 Url:            http://www.openprinting.org
 Source0:	http://www.openprinting.org/download/foomatic/%{name}-%{version}.tar.gz
-Patch0:		foomatic-db-engine.cat.ppd.patch
+#Patch0:		foomatic-db-engine.cat.ppd.patch
 
 BuildRequires:	cups
 BuildRequires:	file
