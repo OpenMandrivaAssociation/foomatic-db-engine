@@ -1,14 +1,15 @@
 %define debug 0
 
 Name:		foomatic-db-engine
-Version:	4.0.11
-Release:	1
-Summary:        Foomatic database access, printer admin, and printing utils
-License:        GPLv2
-Group:          System/Servers
-Url:            http://www.openprinting.org
+Version:	4.0.12
+Release:	0.1
+Summary:	Foomatic database access, printer admin, and printing utils
+License:	GPLv2
+Group:		System/Servers
+Url:		http://www.openprinting.org
 Source0:	http://www.openprinting.org/download/foomatic/%{name}-%{version}.tar.gz
-Patch0:		foomatic-db-engine.cat.ppd.patch
+# (tpg) prolly not needed
+#Patch0:		foomatic-db-engine.cat.ppd.patch
 
 BuildRequires:	cups
 BuildRequires:	file
