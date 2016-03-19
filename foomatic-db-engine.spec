@@ -2,7 +2,7 @@
 
 Name:		foomatic-db-engine
 Version:	4.0.12
-Release:	3
+Release:	4
 Summary:        Foomatic database access, printer admin, and printing utils
 License:        GPLv2
 Group:          System/Servers
