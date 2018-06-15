@@ -40,6 +40,9 @@ for printer administration, and for printing.
 chmod -x *.c
 
 %build
+#cland doesn't work with the current configure
+CC=gcc
+CXX=g++
 # Change compiler flags for debugging when in debug mode
 %if %debug
 export DONT_STRIP=1
