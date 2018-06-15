@@ -15,6 +15,8 @@ BuildRequires:	file
 BuildRequires:	perl-JSON-PP
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(zlib)
+BuildRequires:	pkgconfig(liblzma)
 Requires:       foomatic-filters
 
 %description
