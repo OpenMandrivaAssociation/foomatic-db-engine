@@ -39,7 +39,7 @@ for printer administration, and for printing.
 %prep
 # Source trees for installation
 %setup -q
-%apply_patches
+%autopatch -p1
 chmod -x *.c
 
 %build
