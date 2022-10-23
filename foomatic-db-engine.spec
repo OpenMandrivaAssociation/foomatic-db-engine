@@ -70,18 +70,18 @@ sed  -i -e 's/PREFIX=\$\(DESTDIR\)\$\(PERLPREFIX\)/PREFIX=\$\(PERLPREFIX\)/' Mak
 # work.
 
 make \
-	LPD_LPR=/usr/bin/lpr-lpd \
-        LPD_LPQ=/usr/bin/lpq-lpd \
-        LPD_LPRM=/usr/bin/lprm-lpd \
-        LPD_LPC=/usr/sbin/lpc-lpd \
-        CUPS_LPR=/usr/bin/lpr-cups \
-        CUPS_LPQ=/usr/bin/lpq-cups \
-        CUPS_LPRM=/usr/bin/lprm-cups \
-        CUPS_LPC=/usr/sbin/lpc-cups \
-        CUPS_LP=/usr/bin/lp-cups \
-        CUPS_CANCEL=/usr/bin/cancel-cups \
-        CUPS_LPSTAT=/usr/bin/lpstat-cups \
-        PDQ_PRINTRC=/etc/pdq/printrc \
+	LPD_LPR=%{_bindir}/lpr-lpd \
+        LPD_LPQ=%{_bindir}/lpq-lpd \
+        LPD_LPRM=%{_bindir}/lprm-lpd \
+        LPD_LPC=%{_bindir}/lpc-lpd \
+        CUPS_LPR=%{_bindir}/lpr-cups \
+        CUPS_LPQ=%{_bindir}/lpq-cups \
+        CUPS_LPRM=%{_bindir}/lprm-cups \
+        CUPS_LPC=%{_bindir}/lpc-cups \
+        CUPS_LP=%{_bindir}/lp-cups \
+        CUPS_CANCEL=%{_bindir}/cancel-cups \
+        CUPS_LPSTAT=%{_bindir}/lpstat-cups \
+        PDQ_PRINTRC=%{_sysconfdir}/pdq/printrc \
         PREFIX=%{_prefix} \
         PERL_INSTALLDIRS=vendor \
         DESTDIR=%{buildroot}
@@ -149,7 +149,9 @@ fi
 %files
 %doc README TODO USAGE Foomatic-Devel-Ideas.txt ChangeLog
 %{_bindir}/*
+%if "%{_bindir}" != "%{_sbindir}"
 %{_sbindir}/*
+%endif
 %{perl_vendorlib}/Foomatic
 %{_datadir}/foomatic/templates
 %{_mandir}/man*/*
