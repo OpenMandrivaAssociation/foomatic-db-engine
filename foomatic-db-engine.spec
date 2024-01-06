@@ -1,8 +1,6 @@
-%define debug 0
-
 Name:		foomatic-db-engine
 Version:	4.0.13
-Release:	7
+Release:	8
 Summary:        Foomatic database access, printer admin, and printing utils
 License:        GPLv2
 Group:          System/Servers
@@ -17,6 +15,9 @@ BuildRequires:	perl-devel
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(zlib)
 BuildRequires:	pkgconfig(liblzma)
+# Just so configure can find it, it likes to hardcode
+# the path in foomatic-printjob
+BuildRequires:	curl
 Requires:       foomatic-filters
 Requires(post,preun):       rpm-helper
 
@@ -38,22 +39,10 @@ for printer administration, and for printing.
 
 %prep
 # Source trees for installation
-%setup -q
-%autopatch -p1
+%autosetup -p1
 chmod -x *.c
 
 %build
-#cland doesn't work with the current configure
-CC=gcc
-CXX=g++
-# Change compiler flags for debugging when in debug mode
-%if %debug
-export DONT_STRIP=1
-export CFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-export CXXFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-export RPM_OPT_FLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-%endif
-
 # Makefile generation ("./make_configure" for CVS snapshots)
 ./make_configure
 %configure \
@@ -89,14 +78,6 @@ make \
 chmod a+rx mkinstalldirs
 
 %install
-# Change compiler flags for debugging when in debug mode
-%if %debug
-export DONT_STRIP=1
-export CFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-export CXXFLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-export RPM_OPT_FLAGS="`echo %optflags |sed -e 's/-O3/-g/' |sed -e 's/-O2/-g/'`"
-%endif
-
 # Make directories
 install -d %{buildroot}%{_bindir}
 install -d %{buildroot}%{_libdir}
@@ -114,9 +95,9 @@ make \
         INSTALLSITELIB=%{buildroot}/$installsitelib \
         install
 
-# Use update-alternatives to make "foomatic-printjob" also possible through
-# the usual printing commands
- 
+%if 0
+# This is essentially useless because the versions of
+# lpr and friends from cups work much better
 ( cd %{buildroot}%{_bindir}
   ln -s foomatic-printjob lpr-foomatic
   ln -s foomatic-printjob lpq-foomatic
@@ -125,26 +106,10 @@ make \
 ( cd %{buildroot}%{_sbindir}
   ln -s %{_bindir}/foomatic-printjob lpc-foomatic
 )
+%endif
 
 # Correct permissions
 chmod -R a-X %{buildroot}%{perl_vendorlib}/Foomatic/*.pm
-
-%post -n foomatic-db-engine
-# Set up update-alternatives entries
-%{_sbindir}/update-alternatives --install %{_bindir}/lpr lpr %{_bindir}/lpr-foomatic 1
-%{_sbindir}/update-alternatives --install %{_bindir}/lpq lpq %{_bindir}/lpq-foomatic 1
-%{_sbindir}/update-alternatives --install %{_bindir}/lprm lprm %{_bindir}/lprm-foomatic 1
-%{_sbindir}/update-alternatives --install %{_sbindir}/lpc lpc %{_sbindir}/lpc-foomatic 1
-
-%preun -n foomatic-db-engine
-if [ "$1" -eq "0" ]; then
-  # On removal
-  # Remove update-alternatives entries
-  %{_sbindir}/update-alternatives --remove lpr /usr/bin/lpr-foomatic
-  %{_sbindir}/update-alternatives --remove lpq /usr/bin/lpq-foomatic
-  %{_sbindir}/update-alternatives --remove lprm /usr/bin/lprm-foomatic
-  %{_sbindir}/update-alternatives --remove lpc /usr/sbin/lpc-foomatic
-fi
 
 %files
 %doc README TODO USAGE Foomatic-Devel-Ideas.txt ChangeLog
