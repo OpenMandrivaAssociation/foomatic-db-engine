@@ -8,6 +8,11 @@ Url:            https://www.openprinting.org
 Source0:	http://www.openprinting.org/download/foomatic/%{name}-%{version}.tar.gz
 #Patch0:		foomatic-db-engine.cat.ppd.patch
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	cups
 BuildRequires:	file
 BuildRequires:	perl-JSON-PP
