@@ -1,11 +1,14 @@
 Name:		foomatic-db-engine
 Version:	4.0.13
-Release:	10
+Release:	11
 Summary:        Foomatic database access, printer admin, and printing utils
 License:        GPLv2
 Group:          System/Servers
 Url:            https://www.openprinting.org
-Source0:	http://www.openprinting.org/download/foomatic/%{name}-%{version}.tar.gz
+# 4.0-branch snapshot. AC_INIT is still 4.0.13, so Version stays 4.0.13
+# and the newer snapshot is carried as Release 11. The payload change
+# since the 2022 tarball is the non-integer PageSize fix in DB.pm.
+Source0:	https://www.openprinting.org/download/foomatic/foomatic-db-engine-4.0-20261015.tar.gz
 #Patch0:		foomatic-db-engine.cat.ppd.patch
 
 BuildRequires:	autoconf
@@ -44,7 +47,7 @@ for printer administration, and for printing.
 
 %prep
 # Source trees for installation
-%autosetup -p1
+%autosetup -p1 -n foomatic-db-engine-4.0-20261015
 chmod -x *.c
 
 %build
